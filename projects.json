@@ -1369,5 +1369,23 @@
   "thumbnail": "sites/MI-11/thumbnail.png",
   "location": { "lat": 42.4806, "lng": -83.4755, "label": "Novi, MI" },
   "district": "MI-11", "state": "MI", "tags": ["education", "ai"]
+},
+{
+  "slug": "CA-28",
+  "name": "Anika Jha",
+  "appName": "Fire Up",
+  "description": "A web app bringing together wildfire prediction, live detection, guidance, and evacuation planning in one experience.",
+  "thumbnail": "sites/CA-28/thumbnail.png",
+  "location": { "lat": 34.1274, "lng": -118.0459, "label": "Arcadia, CA" },
+  "district": "CA-28", "state": "CA", "tags": ["environment", "ai", "safety"]
+},
+{
+  "slug": "NY-07",
+  "name": "Eduardo Almeyda",
+  "appName": "LearnIT",
+  "description": "An app to help students learn topics better, keep progress, and answer questions with the use of AI.",
+  "thumbnail": "sites/NY-07/logo.png",
+  "location": { "lat": 40.7455, "lng": -73.906, "label": "New York, NY" },
+  "district": "NY-07", "state": "NY", "tags": ["education", "ai"]
 }
 ]
