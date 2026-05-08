@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grub.io | Anshu Mukherjee</title>
+  <link rel="stylesheet" href="../../assets/css/shared.css" />
+  <script defer src="../../assets/js/nav.js" data-root="../../"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green: #2D6A4F;
+      --green-dark: #1B4332;
+      --green-light: #D8F3DC;
+      --green-50: #F0FFF4;
+      --amber: #D97706;
+      --amber-light: #FEF3C7;
+      --terra: #92400E;
+      --terra-light: #FDE68A;
+      --white: #FFFFFF;
+      --bg: #FAFAF5;
+      --text: #1A1C16;
+      --text-secondary: #4B5340;
+      --text-muted: #8A917C;
+      --border: #D6DBC8;
+      --card-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.06);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Outfit', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* BACK */
+    .back-nav {
+      position: fixed;
+      top: 1.2rem;
+      left: 1.4rem;
+      z-index: 100;
+      text-decoration: none;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--green);
+      background: var(--white);
+      border: 1px solid var(--border);
+      padding: 0.5rem 1.1rem;
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: var(--card-shadow);
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .back-nav:hover { background: var(--green-50); border-color: var(--green); }
+    .back-nav svg { width: 14px; height: 14px; }
+
+    /* HERO */
+    .hero {
+      position: relative;
+      padding: 7rem 2rem 4rem;
+      background: linear-gradient(170deg, #F0FFF4 0%, #D8F3DC 25%, #FEF3C7 70%, var(--white) 100%);
+      overflow: hidden;
+    }
+
+    /* Organic leaf/seed motif */
+    .organic-bg {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .organic-bg .seed {
+      position: absolute;
+      border-radius: 50% 50% 50% 0;
+      opacity: 0.06;
+      background: var(--green-dark);
+    }
+    .organic-bg .seed:nth-child(1) { width: 60px; height: 60px; top: 8%; left: 6%; transform: rotate(-30deg); }
+    .organic-bg .seed:nth-child(2) { width: 40px; height: 40px; top: 20%; left: 22%; transform: rotate(45deg); opacity: 0.04; }
+    .organic-bg .seed:nth-child(3) { width: 80px; height: 80px; top: 5%; right: 10%; transform: rotate(120deg); opacity: 0.03; }
+    .organic-bg .seed:nth-child(4) { width: 35px; height: 35px; top: 45%; right: 6%; transform: rotate(-60deg); opacity: 0.05; }
+    .organic-bg .seed:nth-child(5) { width: 50px; height: 50px; bottom: 25%; left: 8%; transform: rotate(80deg); opacity: 0.04; }
+    .organic-bg .seed:nth-child(6) { width: 45px; height: 45px; bottom: 15%; right: 20%; transform: rotate(-110deg); opacity: 0.03; }
+    .organic-bg .ring {
+      position: absolute;
+      border: 1.5px solid rgba(45,106,79,0.05);
+      border-radius: 50%;
+    }
+    .organic-bg .ring:nth-child(7) { width: 200px; height: 200px; top: -40px; right: -60px; }
+    .organic-bg .ring:nth-child(8) { width: 140px; height: 140px; bottom: 10%; left: -30px; }
+    .organic-bg .ring:nth-child(9) { width: 100px; height: 100px; top: 30%; left: 40%; }
+
+    .hero-inner {
+      max-width: 800px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .hero-chip {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      padding: 0.3rem 0.8rem;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: var(--white);
+      color: var(--text-secondary);
+    }
+    .hero-chip.green { background: var(--green-light); color: var(--green); border-color: transparent; }
+    .hero-chip.amber { background: var(--amber-light); color: var(--amber); border-color: transparent; }
+
+    .hero h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.15;
+      margin-bottom: 1rem;
+    }
+    .hero h1 span { color: var(--green); }
+    .hero h1 .dot { color: var(--amber); }
+
+    .hero-desc {
+      font-size: 1.1rem;
+      font-weight: 400;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      max-width: 620px;
+      margin-bottom: 2rem;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+    }
+    .hero-meta-item {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+    .hero-meta-item strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    /* MAIN */
+    .page-main {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 3rem 2rem 4rem;
+    }
+
+    /* DASHBOARD GRID */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.2rem;
+      margin-bottom: 3rem;
+    }
+    @media (max-width: 800px) { .dashboard-grid { grid-template-columns: 1fr; } }
+
+    .dash-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.8rem;
+      box-shadow: var(--card-shadow);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .dash-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+    .dash-card-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 1rem;
+    }
+    .dash-icon {
+      width: 36px; height: 36px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+    }
+    .dash-icon.green { background: var(--green-light); }
+    .dash-icon.amber { background: var(--amber-light); }
+    .dash-icon.terra { background: #FDE68A; }
+    .dash-card-title {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .dash-card h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 0.6rem;
+    }
+    .dash-card p {
+      font-size: 0.9rem;
+      line-height: 1.7;
+      color: var(--text-secondary);
+    }
+
+    /* SECTION HEADING */
+    .section-heading {
+      margin-bottom: 1.5rem;
+    }
+    .section-heading .label {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 0.4rem;
+    }
+    .section-heading h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.25;
+    }
+
+    /* CONTENT PANELS */
+    .content-panel {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2.2rem 2.5rem;
+      box-shadow: var(--card-shadow);
+      margin-bottom: 3rem;
+    }
+
+    .content-panel p {
+      font-size: 1rem;
+      line-height: 1.85;
+      color: var(--text-secondary);
+    }
+    .content-panel p + p { margin-top: 1rem; }
+
+    /* CREATORS */
+    .creators-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+
+    .creator-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: var(--card-shadow);
+    }
+    .creator-card-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 1rem;
+    }
+    .creator-avatar {
+      width: 44px; height: 44px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--white);
+    }
+    .creator-avatar.green { background: var(--green); }
+    .creator-avatar.amber { background: var(--amber); }
+    .creator-name {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .creator-role {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+    .creator-card p {
+      font-size: 0.9rem;
+      line-height: 1.75;
+      color: var(--text-secondary);
+    }
+    .creator-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 0.8rem;
+    }
+    .creator-tag {
+      font-size: 0.68rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.2rem 0.6rem;
+    }
+
+    /* TECH STACK */
+    .tech-stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-top: 1rem;
+    }
+    .tech-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.6rem 1rem;
+      box-shadow: var(--card-shadow);
+    }
+    .tech-dot {
+      width: 8px; height: 8px;
+      border-radius: 2px;
+    }
+    .tech-dot.green { background: var(--green); }
+    .tech-dot.amber { background: var(--amber); }
+    .tech-dot.terra { background: var(--terra); }
+    .tech-bar-name {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .tech-bar-role {
+      font-size: 0.68rem;
+      color: var(--text-muted);
+    }
+
+    /* VIDEO */
+    .video-panel {
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+      margin-top: 1rem;
+    }
+    .video-panel iframe {
+      display: block;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border: none;
+    }
+
+    /* HIGHLIGHT BOX */
+    .highlight-box {
+      background: linear-gradient(135deg, var(--green-50) 0%, #FEFCE8 100%);
+      border: 1px solid rgba(45, 106, 79, 0.1);
+      border-radius: 12px;
+      padding: 2rem 2.2rem;
+      margin-bottom: 3rem;
+    }
+    .highlight-box .quote-mark {
+      font-family: 'Lora', serif;
+      font-size: 3rem;
+      color: var(--green);
+      opacity: 0.2;
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+    .highlight-box blockquote {
+      font-family: 'Lora', serif;
+      font-size: 1.1rem;
+      font-style: italic;
+      color: var(--text);
+      line-height: 1.7;
+    }
+    .highlight-box cite {
+      display: block;
+      margin-top: 0.8rem;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.72rem;
+      font-style: normal;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    /* LINKS */
+    .links-flex {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin-top: 1rem;
+    }
+    .action-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 0.7rem 1.4rem;
+      border-radius: 8px;
+      transition: transform 0.15s, box-shadow 0.2s;
+    }
+    .action-btn:hover { transform: translateY(-1px); }
+    .action-btn svg { width: 14px; height: 14px; flex-shrink: 0; }
+    .action-btn.primary {
+      background: var(--green);
+      color: var(--white);
+      box-shadow: 0 2px 10px rgba(45,106,79,0.2);
+    }
+    .action-btn.primary:hover { box-shadow: 0 4px 15px rgba(45,106,79,0.3); }
+    .action-btn.outline {
+      background: var(--white);
+      color: var(--green);
+      border: 1px solid var(--border);
+      box-shadow: var(--card-shadow);
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--text);
+      padding: 2.5rem 2rem;
+      text-align: center;
+    }
+    footer p {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: rgba(255,255,255,0.4);
+    }
+    footer a {
+      color: rgba(255,255,255,0.6);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    footer a:hover { color: var(--white); text-decoration: underline; }
+
+    /* SCROLL REVEAL */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 600px) {
+      .hero { padding: 5rem 1.5rem 3rem; }
+      .page-main { padding: 2rem 1.2rem 3rem; }
+      .content-panel { padding: 1.6rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <a href="../../" class="back-nav">
+    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 12L6 8l4-4"/></svg>
+    Showcase
+  </a>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="organic-bg">
+      <div class="seed"></div><div class="seed"></div><div class="seed"></div>
+      <div class="seed"></div><div class="seed"></div><div class="seed"></div>
+      <div class="ring"></div><div class="ring"></div><div class="ring"></div>
+    </div>
+    <div class="hero-inner">
+      <div class="hero-chips">
+        <span class="hero-chip green">Environment</span>
+        <span class="hero-chip amber">Social</span>
+        <span class="hero-chip">Mobile</span>
+        <span class="hero-chip">Full-Stack</span>
+        <span class="hero-chip">OR-05</span>
+      </div>
+      <h1>Grub<span class="dot">.</span><span>io</span></h1>
+      <p class="hero-desc">A mobile application designed to minimize food waste by enabling event attendees to list surplus food and allowing others to claim it &mdash; connecting communities through shared meals and sustainability.</p>
+      <div class="hero-meta">
+        <span class="hero-meta-item"><strong>Creator:</strong> Anshu Mukherjee</span>
+        <span class="hero-meta-item"><strong>Location:</strong> West Linn, Oregon</span>
+        <span class="hero-meta-item"><strong>District:</strong> OR-05</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="page-main">
+
+    <!-- MISSION -->
+    <div class="highlight-box reveal">
+      <div class="quote-mark">"</div>
+      <blockquote>Turning surplus into sustenance &mdash; Grub.io bridges the gap between excess food at events and people who can use it, reducing waste one meal at a time through real-time mobile technology.</blockquote>
+      <cite>Mission Statement</cite>
+    </div>
+
+    <!-- FEATURE DASHBOARD CARDS -->
+    <div class="dashboard-grid reveal">
+      <div class="dash-card">
+        <div class="dash-card-header">
+          <div class="dash-icon green">&#x1F4F2;</div>
+          <span class="dash-card-title">Listing</span>
+        </div>
+        <h3>Surplus Food Posting</h3>
+        <p>Event attendees can quickly list leftover food with descriptions and quantities, making it visible to nearby users in real time.</p>
+      </div>
+      <div class="dash-card">
+        <div class="dash-card-header">
+          <div class="dash-icon amber">&#x1F4F7;</div>
+          <span class="dash-card-title">Claiming</span>
+        </div>
+        <h3>QR Code Pickup</h3>
+        <p>Generates unique QR codes for each food listing, enabling seamless and verified pickup through a simple in-app scan.</p>
+      </div>
+      <div class="dash-card">
+        <div class="dash-card-header">
+          <div class="dash-icon terra">&#x1F514;</div>
+          <span class="dash-card-title">Alerts</span>
+        </div>
+        <h3>Real-Time Notifications</h3>
+        <p>In-app notifications alert users when new food becomes available nearby, ensuring surplus gets claimed before it goes to waste.</p>
+      </div>
+    </div>
+
+    <!-- CREATORS -->
+    <div class="section-heading reveal">
+      <p class="label">The Builder</p>
+      <h2>About the Creator</h2>
+    </div>
+    <div class="creators-grid reveal">
+      <div class="creator-card">
+        <div class="creator-card-header">
+          <div class="creator-avatar green">AM</div>
+          <div>
+            <div class="creator-name">Anshu Mukherjee</div>
+            <div class="creator-role">Student, West Linn, Oregon</div>
+          </div>
+        </div>
+        <p>A student developer driven by the intersection of technology and environmental sustainability. Anshu recognized the massive problem of food waste at events and built Grub.io as a full-stack mobile solution, combining real-time data synchronization with an intuitive user experience to make food sharing effortless and impactful.</p>
+        <div class="creator-tags">
+          <span class="creator-tag">React Native</span>
+          <span class="creator-tag">Firebase</span>
+          <span class="creator-tag">Sustainability</span>
+          <span class="creator-tag">Mobile Dev</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- HOW IT WORKS -->
+    <div class="section-heading reveal">
+      <p class="label">The Solution</p>
+      <h2>How It Works</h2>
+    </div>
+    <div class="content-panel reveal">
+      <p>Grub.io is a full-stack mobile application built with React Native, Firebase, and Expo that tackles food waste at its source &mdash; events. When an event ends and food remains, attendees can open the app and list surplus items with descriptions, making them instantly available to the local community.</p>
+      <p>The app leverages Firebase for real-time database synchronization, ensuring that food listings appear immediately for nearby users. Each listing generates a unique QR code that facilitates secure, verified pickup. In-app notifications keep users informed when new food becomes available, creating a responsive ecosystem where surplus food finds a home quickly. The entire experience is designed to be frictionless, encouraging participation and maximizing the amount of food rescued from waste.</p>
+    </div>
+
+    <!-- TECH STACK -->
+    <div class="section-heading reveal">
+      <p class="label">Built With</p>
+      <h2>Technology Stack</h2>
+    </div>
+    <div class="tech-stack reveal" style="margin-bottom: 3rem;">
+      <div class="tech-bar"><span class="tech-dot green"></span><span class="tech-bar-name">React Native</span><span class="tech-bar-role">&middot; Frontend</span></div>
+      <div class="tech-bar"><span class="tech-dot amber"></span><span class="tech-bar-name">Firebase</span><span class="tech-bar-role">&middot; Backend</span></div>
+      <div class="tech-bar"><span class="tech-dot terra"></span><span class="tech-bar-name">Expo</span><span class="tech-bar-role">&middot; Platform</span></div>
+    </div>
+
+    <!-- VIDEO -->
+    <div class="section-heading reveal">
+      <p class="label">In Action</p>
+      <h2>Demo Video</h2>
+    </div>
+    <div class="reveal" style="margin-bottom: 3rem;">
+      <div class="video-panel">
+        <iframe
+          src="https://www.youtube.com/embed/A4SkiII4qm0"
+          title="Grub.io Demo"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+          referrerpolicy="strict-origin-when-cross-origin">
+        </iframe>
+      </div>
+    </div>
+
+    <!-- LINKS -->
+    <div class="section-heading reveal">
+      <p class="label">Explore</p>
+      <h2>Project Links</h2>
+    </div>
+    <div class="reveal" style="margin-bottom: 2rem;">
+      <div class="links-flex">
+        <a href="https://www.youtube.com/watch?v=A4SkiII4qm0" class="action-btn primary" target="_blank" rel="noopener">
+          <svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.5 4.5v7l5-3.5-5-3.5z"/></svg>
+          Watch Demo Video
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <p>Congressional App Challenge 2025 &bull; OR-05 &bull; West Linn, OR &bull; <a href="../../">Back to Showcase</a></p>
+  </footer>
+
+  <!-- SCROLL REVEAL -->
+  <script>
+    (function () {
+      var els = document.querySelectorAll('.reveal');
+      if (!els.length) return;
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) {
+            e.target.classList.add('visible');
+            io.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.12 });
+      els.forEach(function (el) { io.observe(el); });
+    })();
+  </script>
+
+</body>
+</html>

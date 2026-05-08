@@ -1432,5 +1432,32 @@
   "thumbnail": "sites/TX-03/thumbnail.png",
   "location": { "lat": 33.2362, "lng": -96.8011, "label": "Prosper, TX" },
   "district": "TX-03", "state": "TX", "tags": ["environment", "ai"]
+},
+{
+  "slug": "IN-08",
+  "name": "Sarah Li, Kodi Lau, Matthew Fei, Madeleine Long",
+  "appName": "CivicLink",
+  "description": "A website designed to help civic engineers communicate local infrastructure changes within their city to their citizens.",
+  "thumbnail": "sites/IN-08/thumbnail.png",
+  "location": { "lat": 37.9716, "lng": -87.5711, "label": "Evansville, IN" },
+  "district": "IN-08", "state": "IN", "tags": ["civic"]
+},
+{
+  "slug": "OR-05",
+  "name": "Anshu Mukherjee",
+  "appName": "Grub.io",
+  "description": "An app that reduces food waste by allowing others to claim leftovers at events.",
+  "thumbnail": "sites/OR-05/thumbnail.png",
+  "location": { "lat": 45.3654, "lng": -122.6122, "label": "West Linn, OR" },
+  "district": "OR-05", "state": "OR", "tags": ["environment", "social"]
+},
+{
+  "slug": "NY-13",
+  "name": "Louis Gui",
+  "appName": "Trash Bin Optimizer",
+  "description": "A data-driven tool that identifies optimal locations for new trash bins in NYC by analyzing pedestrian traffic and existing bin coverage.",
+  "thumbnail": "sites/NY-13/thumbnail.png",
+  "location": { "lat": 40.7282, "lng": -73.7949, "label": "Queens, NY" },
+  "district": "NY-13", "state": "NY", "tags": ["environment", "civic", "health", "social"]
 }
 ]

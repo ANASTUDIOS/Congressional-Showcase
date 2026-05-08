@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CivicLink | Sarah Li, Kodi Lau, Matthew Fei, Madeleine Long</title>
+  <link rel="stylesheet" href="../../assets/css/shared.css" />
+  <script defer src="../../assets/js/nav.js" data-root="../../"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy: #1B3A5C;
+      --navy-dark: #132C47;
+      --navy-light: #E8EEF4;
+      --navy-50: #F1F5F9;
+      --slate: #3D5A80;
+      --gold: #C9973B;
+      --gold-light: #FDF6E8;
+      --teal: #2E8B7A;
+      --teal-light: #E6F5F2;
+      --white: #FFFFFF;
+      --bg: #F4F6F8;
+      --text: #0D1B2A;
+      --text-secondary: #3E5060;
+      --text-muted: #7E909F;
+      --border: #D1DAE3;
+      --card-shadow: 0 1px 3px rgba(13,27,42,0.05), 0 1px 2px rgba(13,27,42,0.07);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Outfit', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* BACK */
+    .back-nav {
+      position: fixed;
+      top: 1.2rem;
+      left: 1.4rem;
+      z-index: 100;
+      text-decoration: none;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--navy);
+      background: var(--white);
+      border: 1px solid var(--border);
+      padding: 0.5rem 1.1rem;
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: var(--card-shadow);
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .back-nav:hover { background: var(--navy-50); border-color: var(--navy); }
+    .back-nav svg { width: 14px; height: 14px; }
+
+    /* HERO */
+    .hero {
+      position: relative;
+      padding: 7rem 2rem 4rem;
+      background: linear-gradient(170deg, #0D1B2A 0%, #1B3A5C 40%, #2E5077 70%, #3D5A80 100%);
+      overflow: hidden;
+      color: var(--white);
+    }
+
+    /* Civic columns motif */
+    .civic-bg {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .civic-bg .column-line {
+      position: absolute;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(to top, rgba(201,151,59,0.12), transparent);
+    }
+    .civic-bg .column-line:nth-child(1) { left: 8%; height: 70%; }
+    .civic-bg .column-line:nth-child(2) { left: 14%; height: 55%; }
+    .civic-bg .column-line:nth-child(3) { left: 20%; height: 80%; }
+    .civic-bg .column-line:nth-child(4) { right: 10%; height: 65%; }
+    .civic-bg .column-line:nth-child(5) { right: 18%; height: 75%; }
+    .civic-bg .column-line:nth-child(6) { right: 25%; height: 50%; }
+
+    /* Grid overlay */
+    .civic-bg .grid-overlay {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    /* Corner accents */
+    .civic-bg .corner-accent {
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      border: 1px solid rgba(201,151,59,0.15);
+    }
+    .civic-bg .corner-accent.top-right {
+      top: 2rem;
+      right: 2rem;
+      border-left: none;
+      border-bottom: none;
+    }
+    .civic-bg .corner-accent.bottom-left {
+      bottom: 2rem;
+      left: 2rem;
+      border-right: none;
+      border-top: none;
+    }
+
+    .hero-inner {
+      max-width: 800px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .hero-chip {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      padding: 0.3rem 0.8rem;
+      border-radius: 6px;
+      border: 1px solid rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.8);
+    }
+    .hero-chip.gold { background: rgba(201,151,59,0.2); color: #F0D68A; border-color: rgba(201,151,59,0.3); }
+    .hero-chip.teal { background: rgba(46,139,122,0.2); color: #7EDBC9; border-color: rgba(46,139,122,0.3); }
+
+    .hero h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.15;
+      margin-bottom: 1rem;
+    }
+    .hero h1 span { color: var(--gold); }
+
+    .hero-desc {
+      font-size: 1.1rem;
+      font-weight: 400;
+      color: rgba(255,255,255,0.75);
+      line-height: 1.7;
+      max-width: 620px;
+      margin-bottom: 2rem;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(255,255,255,0.12);
+    }
+    .hero-meta-item {
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.5);
+    }
+    .hero-meta-item strong {
+      color: rgba(255,255,255,0.9);
+      font-weight: 600;
+    }
+
+    /* MAIN */
+    .page-main {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 3rem 2rem 4rem;
+    }
+
+    /* DASHBOARD GRID */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.2rem;
+      margin-bottom: 3rem;
+    }
+    @media (max-width: 800px) { .dashboard-grid { grid-template-columns: 1fr; } }
+
+    .dash-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.8rem;
+      box-shadow: var(--card-shadow);
+      transition: transform 0.2s, box-shadow 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .dash-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+    }
+    .dash-card:nth-child(1)::before { background: var(--navy); }
+    .dash-card:nth-child(2)::before { background: var(--gold); }
+    .dash-card:nth-child(3)::before { background: var(--teal); }
+    .dash-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(13,27,42,0.1);
+    }
+    .dash-card-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 1rem;
+    }
+    .dash-icon {
+      width: 36px; height: 36px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+    }
+    .dash-icon.navy { background: var(--navy-light); }
+    .dash-icon.gold { background: var(--gold-light); }
+    .dash-icon.teal { background: var(--teal-light); }
+    .dash-card-title {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .dash-card h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 0.6rem;
+    }
+    .dash-card p {
+      font-size: 0.9rem;
+      line-height: 1.7;
+      color: var(--text-secondary);
+    }
+
+    /* SECTION HEADING */
+    .section-heading {
+      margin-bottom: 1.5rem;
+    }
+    .section-heading .label {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--navy);
+      margin-bottom: 0.4rem;
+    }
+    .section-heading h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.25;
+    }
+
+    /* CONTENT PANELS */
+    .content-panel {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2.2rem 2.5rem;
+      box-shadow: var(--card-shadow);
+      margin-bottom: 3rem;
+    }
+
+    .content-panel p {
+      font-size: 1rem;
+      line-height: 1.85;
+      color: var(--text-secondary);
+    }
+    .content-panel p + p { margin-top: 1rem; }
+
+    /* CREATORS */
+    .creators-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.2rem;
+      margin-bottom: 3rem;
+    }
+    @media (max-width: 700px) { .creators-grid { grid-template-columns: 1fr; } }
+
+    .creator-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.6rem;
+      box-shadow: var(--card-shadow);
+    }
+    .creator-card-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 0.8rem;
+    }
+    .creator-avatar {
+      width: 42px; height: 42px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--white);
+    }
+    .creator-avatar.navy { background: var(--navy); }
+    .creator-avatar.slate { background: var(--slate); }
+    .creator-avatar.gold { background: var(--gold); }
+    .creator-avatar.teal { background: var(--teal); }
+    .creator-name {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .creator-role {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+    .creator-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 0.6rem;
+    }
+    .creator-tag {
+      font-size: 0.68rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.2rem 0.6rem;
+    }
+
+    /* TECH STACK */
+    .tech-stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-top: 1rem;
+    }
+    .tech-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.6rem 1rem;
+      box-shadow: var(--card-shadow);
+    }
+    .tech-dot {
+      width: 8px; height: 8px;
+      border-radius: 2px;
+    }
+    .tech-dot.navy { background: var(--navy); }
+    .tech-dot.gold { background: var(--gold); }
+    .tech-dot.teal { background: var(--teal); }
+    .tech-bar-name {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .tech-bar-role {
+      font-size: 0.68rem;
+      color: var(--text-muted);
+    }
+
+    /* VIDEO */
+    .video-panel {
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 20px rgba(13,27,42,0.08);
+      margin-top: 1rem;
+    }
+    .video-panel iframe {
+      display: block;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border: none;
+    }
+
+    /* HIGHLIGHT BOX */
+    .highlight-box {
+      background: linear-gradient(135deg, var(--navy-50) 0%, var(--gold-light) 100%);
+      border: 1px solid rgba(27,58,92,0.1);
+      border-radius: 12px;
+      padding: 2rem 2.2rem;
+      margin-bottom: 3rem;
+      position: relative;
+    }
+    .highlight-box::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 1.5rem;
+      bottom: 1.5rem;
+      width: 3px;
+      background: linear-gradient(to bottom, var(--navy), var(--gold));
+      border-radius: 2px;
+    }
+    .highlight-box .quote-mark {
+      font-family: 'Lora', serif;
+      font-size: 3rem;
+      color: var(--navy);
+      opacity: 0.15;
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+    .highlight-box blockquote {
+      font-family: 'Lora', serif;
+      font-size: 1.1rem;
+      font-style: italic;
+      color: var(--text);
+      line-height: 1.7;
+    }
+    .highlight-box cite {
+      display: block;
+      margin-top: 0.8rem;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.72rem;
+      font-style: normal;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    /* LINKS */
+    .links-flex {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin-top: 1rem;
+    }
+    .action-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 0.7rem 1.4rem;
+      border-radius: 8px;
+      transition: transform 0.15s, box-shadow 0.2s;
+    }
+    .action-btn:hover { transform: translateY(-1px); }
+    .action-btn svg { width: 14px; height: 14px; flex-shrink: 0; }
+    .action-btn.primary {
+      background: var(--navy);
+      color: var(--white);
+      box-shadow: 0 2px 10px rgba(27,58,92,0.25);
+    }
+    .action-btn.primary:hover { box-shadow: 0 4px 15px rgba(27,58,92,0.35); }
+    .action-btn.outline {
+      background: var(--white);
+      color: var(--navy);
+      border: 1px solid var(--border);
+      box-shadow: var(--card-shadow);
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--text);
+      padding: 2.5rem 2rem;
+      text-align: center;
+    }
+    footer p {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: rgba(255,255,255,0.4);
+    }
+    footer a {
+      color: rgba(255,255,255,0.6);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    footer a:hover { color: var(--white); text-decoration: underline; }
+
+    /* SCROLL REVEAL */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    @media (max-width: 600px) {
+      .hero { padding: 5rem 1.5rem 3rem; }
+      .page-main { padding: 2rem 1.2rem 3rem; }
+      .content-panel { padding: 1.6rem; }
+      .civic-bg .corner-accent { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <a href="../../" class="back-nav">
+    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 12L6 8l4-4"/></svg>
+    Showcase
+  </a>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="civic-bg">
+      <div class="grid-overlay"></div>
+      <div class="column-line"></div>
+      <div class="column-line"></div>
+      <div class="column-line"></div>
+      <div class="column-line"></div>
+      <div class="column-line"></div>
+      <div class="column-line"></div>
+      <div class="corner-accent top-right"></div>
+      <div class="corner-accent bottom-left"></div>
+    </div>
+    <div class="hero-inner">
+      <div class="hero-chips">
+        <span class="hero-chip gold">Civic / Government</span>
+        <span class="hero-chip teal">Infrastructure</span>
+        <span class="hero-chip">Communication</span>
+        <span class="hero-chip">IN-08</span>
+      </div>
+      <h1>Civic<span>Link</span></h1>
+      <p class="hero-desc">A website designed to help civic engineers communicate local infrastructure changes within their city to their citizens &mdash; bridging the gap between public works and the people they serve.</p>
+      <div class="hero-meta">
+        <span class="hero-meta-item"><strong>Team:</strong> Sarah Li, Kodi Lau, Matthew Fei, Madeleine Long</span>
+        <span class="hero-meta-item"><strong>Location:</strong> Evansville, IN</span>
+        <span class="hero-meta-item"><strong>District:</strong> IN-08</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="page-main">
+
+    <!-- MISSION -->
+    <div class="highlight-box reveal">
+      <div class="quote-mark">&ldquo;</div>
+      <blockquote>Empowering civic engineers to communicate infrastructure changes clearly and directly to the citizens they serve &mdash; making local government more transparent and communities more informed.</blockquote>
+      <cite>Project Mission</cite>
+    </div>
+
+    <!-- FEATURE DASHBOARD CARDS -->
+    <div class="dashboard-grid reveal">
+      <div class="dash-card">
+        <div class="dash-card-header">
+          <div class="dash-icon navy">&#x1F3D7;</div>
+          <span class="dash-card-title">Infrastructure</span>
+        </div>
+        <h3>Project Updates</h3>
+        <p>Civic engineers can post and manage local infrastructure changes, keeping citizens informed about road work, utility upgrades, and public projects.</p>
+      </div>
+      <div class="dash-card">
+        <div class="dash-card-header">
+          <div class="dash-icon gold">&#x1F4E2;</div>
+          <span class="dash-card-title">Communication</span>
+        </div>
+        <h3>Citizen Outreach</h3>
+        <p>Bridges the communication gap between local government engineers and residents with clear, accessible updates about changes in their neighborhoods.</p>
+      </div>
+      <div class="dash-card">
+        <div class="dash-card-header">
+          <div class="dash-icon teal">&#x1F5FA;</div>
+          <span class="dash-card-title">Local Focus</span>
+        </div>
+        <h3>City-Level Detail</h3>
+        <p>Designed for city-scale communication, ensuring that infrastructure updates are relevant and localized to the communities that need them most.</p>
+      </div>
+    </div>
+
+    <!-- CREATORS -->
+    <div class="section-heading reveal">
+      <p class="label">The Team</p>
+      <h2>About the Builders</h2>
+    </div>
+    <div class="creators-grid reveal">
+      <div class="creator-card">
+        <div class="creator-card-header">
+          <div class="creator-avatar navy">SL</div>
+          <div>
+            <div class="creator-name">Sarah Li</div>
+            <div class="creator-role">Developer</div>
+          </div>
+        </div>
+        <div class="creator-tags">
+          <span class="creator-tag">HTML</span>
+          <span class="creator-tag">CSS</span>
+          <span class="creator-tag">JavaScript</span>
+        </div>
+      </div>
+      <div class="creator-card">
+        <div class="creator-card-header">
+          <div class="creator-avatar slate">KL</div>
+          <div>
+            <div class="creator-name">Kodi Lau</div>
+            <div class="creator-role">Developer</div>
+          </div>
+        </div>
+        <div class="creator-tags">
+          <span class="creator-tag">HTML</span>
+          <span class="creator-tag">CSS</span>
+          <span class="creator-tag">JavaScript</span>
+        </div>
+      </div>
+      <div class="creator-card">
+        <div class="creator-card-header">
+          <div class="creator-avatar gold">MF</div>
+          <div>
+            <div class="creator-name">Matthew Fei</div>
+            <div class="creator-role">Developer</div>
+          </div>
+        </div>
+        <div class="creator-tags">
+          <span class="creator-tag">HTML</span>
+          <span class="creator-tag">CSS</span>
+          <span class="creator-tag">JavaScript</span>
+        </div>
+      </div>
+      <div class="creator-card">
+        <div class="creator-card-header">
+          <div class="creator-avatar teal">ML</div>
+          <div>
+            <div class="creator-name">Madeleine Long</div>
+            <div class="creator-role">Developer</div>
+          </div>
+        </div>
+        <div class="creator-tags">
+          <span class="creator-tag">HTML</span>
+          <span class="creator-tag">CSS</span>
+          <span class="creator-tag">JavaScript</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- HOW IT WORKS -->
+    <div class="section-heading reveal">
+      <p class="label">How It Works</p>
+      <h2>Connecting Engineers and Citizens</h2>
+    </div>
+    <div class="content-panel reveal">
+      <p>CivicLink is a web platform built to solve a real problem in local government: the disconnect between civic engineers planning infrastructure changes and the citizens affected by those changes. Too often, road closures, utility upgrades, and construction projects happen with little advance notice or clear communication to residents.</p>
+      <p>The platform provides civic engineers with a straightforward interface to post updates about local infrastructure projects, including timelines, affected areas, and project details. Citizens can then access these updates through a clean, accessible website, staying informed about what is happening in their city and how it may impact their daily routines. Built with HTML, CSS, and JavaScript, CivicLink prioritizes simplicity and usability for both engineers and the public.</p>
+    </div>
+
+    <!-- TECH STACK -->
+    <div class="section-heading reveal">
+      <p class="label">Built With</p>
+      <h2>Technology Stack</h2>
+    </div>
+    <div class="tech-stack reveal" style="margin-bottom: 3rem;">
+      <div class="tech-bar"><span class="tech-dot navy"></span><span class="tech-bar-name">HTML</span><span class="tech-bar-role">&middot; Structure</span></div>
+      <div class="tech-bar"><span class="tech-dot gold"></span><span class="tech-bar-name">CSS</span><span class="tech-bar-role">&middot; Styling</span></div>
+      <div class="tech-bar"><span class="tech-dot teal"></span><span class="tech-bar-name">JavaScript</span><span class="tech-bar-role">&middot; Interactivity</span></div>
+    </div>
+
+    <!-- VIDEO -->
+    <div class="section-heading reveal">
+      <p class="label">In Action</p>
+      <h2>Demo Video</h2>
+    </div>
+    <div class="reveal" style="margin-bottom: 3rem;">
+      <div class="video-panel">
+        <iframe
+          src="https://www.youtube.com/embed/BeI2z45KUYs"
+          title="CivicLink Demo"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+          referrerpolicy="strict-origin-when-cross-origin">
+        </iframe>
+      </div>
+    </div>
+
+    <!-- LINKS -->
+    <div class="section-heading reveal">
+      <p class="label">Explore</p>
+      <h2>Project Links</h2>
+    </div>
+    <div class="reveal" style="margin-bottom: 2rem;">
+      <div class="links-flex">
+        <a href="https://machufay.github.io/Civic-Link/" class="action-btn primary" target="_blank" rel="noopener">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 3H3a1 1 0 00-1 1v9a1 1 0 001 1h9a1 1 0 001-1v-3M10 2h4m0 0v4m0-4L7 9"/></svg>
+          Try CivicLink
+        </a>
+        <a href="https://machufay.github.io/Civic-Link/" class="action-btn outline" target="_blank" rel="noopener">
+          <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          View Project
+        </a>
+        <a href="https://www.youtube.com/watch?v=BeI2z45KUYs" class="action-btn outline" target="_blank" rel="noopener">
+          <svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.5 4.5v7l5-3.5-5-3.5z"/></svg>
+          Watch on YouTube
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <p>Congressional App Challenge 2025 &bull; IN-08 &bull; Evansville, IN &bull; <a href="../../">Back to Showcase</a></p>
+  </footer>
+
+  <!-- SCROLL REVEAL -->
+  <script>
+    (function () {
+      var els = document.querySelectorAll('.reveal');
+      if (!els.length) return;
+
+      function check() {
+        var trigger = window.innerHeight * 0.88;
+        els.forEach(function (el) {
+          if (el.getBoundingClientRect().top < trigger) {
+            el.classList.add('visible');
+          }
+        });
+      }
+
+      window.addEventListener('scroll', check, { passive: true });
+      window.addEventListener('resize', check);
+      check();
+    })();
+  </script>
+
+</body>
+</html>
